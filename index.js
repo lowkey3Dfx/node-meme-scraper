@@ -23,8 +23,14 @@ axios(url)
     const memes = memesArray.slice(0, 10);
     // create new array only containing the img src links using map method
     const mapLinks = memes.map((mem) => mem.imgSrc);
+    //
     // log each link
-    const eachLink = mapLinks.forEach((link) => console.log(link));
+    // const eachLink = mapLinks.forEach((link) => console.log(link));
+    //
+    // for loop though the array to get each link
+    for (let i = 0; i < mapLinks.length; i++) {
+      console.log(mapLinks[i]);
+    }
     // console.log(mapLinks);
   })
   .catch((err) => console.log(err));
