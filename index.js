@@ -1,22 +1,22 @@
-// const express = require('express');
-// const cheerio = require('cheerio');
-// const axios = require('axios');
+import axios from 'axios';
+import cheerio from 'cheerio';
+import express from 'express';
 
-// const app = express();
+const app = express();
 
-// let url = 'https://memegen-link-examples-upleveled.netlify.app/';
+const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 
-// axios(url)
-//   .then((response) => {
-//     const html = response.data;
-//     const $ = cheerio.load(html);
-//     let memesArray = [];
+axios(url)
+  .then((response) => {
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const memesArray = [];
 
-//     $('div', html).each(function () {
-//       const imgSrc = $(this).find('img').attr('src');
-//       memesArray.push({ imgSrc });
-//     });
-//     let memes = memesArray.slice(0, 10);
-//     console.log(memesArray);
-//   })
-//   .catch((err) => console.log(err));
+    $('div', html).each(function () {
+      const imgSrc = $(this).find('img').attr('src');
+      memesArray.push({ imgSrc });
+    });
+    const memes = memesArray.slice(0, 10);
+    console.log(memes);
+  })
+  .catch((err) => console.log(err));
