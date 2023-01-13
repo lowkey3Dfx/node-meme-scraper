@@ -1,6 +1,8 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
-import path from 'path';
+import Fs from 'fs';
+import Path from 'path';
+import { downloadImage } from './download.js';
 
 const memesUrl = 'https://memegen-link-examples-upleveled.netlify.app';
 // axios fetch data from url
@@ -33,3 +35,5 @@ axios(memesUrl)
     // console.log(mapLinks);
   })
   .catch((err) => console.log(err));
+
+downloadImage();

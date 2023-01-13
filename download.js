@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename);
 
-async function downloadImage() {
+export async function downloadImage() {
   const url =
     'https://api.memegen.link/images/bad/your_meme_is_bad/and_you_should_feel_bad.jpg?width=300';
   const path = Path.resolve(__dirname, 'memes', '01.jpg');
