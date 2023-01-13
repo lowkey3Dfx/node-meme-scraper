@@ -1,13 +1,11 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
-import express from 'express';
+import path from 'path';
 
-const PORT = 8000;
-const app = express();
-
-const url = 'https://memegen-link-examples-upleveled.netlify.app';
+const memesUrl = 'https://memegen-link-examples-upleveled.netlify.app';
 // axios fetch data from url
-axios(url)
+
+axios(memesUrl)
   .then((response) => {
     // extract html
     const html = response.data;
@@ -21,6 +19,7 @@ axios(url)
     });
     // store first 10 links inside memes variable
     const memes = memesArray.slice(0, 10);
+    const memesOne = memesArray.slice(0);
     // create new array only containing the img src links using map method
     const mapLinks = memes.map((mem) => mem.imgSrc);
     //
@@ -34,5 +33,3 @@ axios(url)
     // console.log(mapLinks);
   })
   .catch((err) => console.log(err));
-
-app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
