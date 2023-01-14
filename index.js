@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as cheerio from 'cheerio';
-import * as fetch from 'node-fetch';
+import fetch from 'node-fetch';
 import downloadImage from './download.js';
 
 const website = new URL('https://memegen-link-examples-upleveled.netlify.app');
