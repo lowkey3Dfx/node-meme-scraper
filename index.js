@@ -1,39 +1,47 @@
-import axios from 'axios';
-import cheerio from 'cheerio';
-import Fs from 'fs';
-import Path from 'path';
-import { downloadImage } from './download.js';
+import * as fs from 'node:fs';
+import * as cheerio from 'cheerio';
+import downloadImage from './download.js';
 
-const memesUrl = 'https://memegen-link-examples-upleveled.netlify.app';
-// axios fetch data from url
+const website = new URL('https://memegen-link-examples-upleveled.netlify.app');
+const response = await fetch(website);
+const main = await response.text();
 
-axios(memesUrl)
-  .then((response) => {
-    // extract html
-    const html = response.data;
-    const $ = cheerio.load(html);
-    const memesArray = [];
-    // looking inside div and section html to find img and src attributes
-    $('div', 'section', html).each(function () {
-      // store links inside imgSrc variable and push links inside empty memesArray variable
-      const imgSrc = $(this).find('img').attr('src');
-      memesArray.push({ imgSrc });
+const $ = cheerio.load(main);
+// get src from html
+const htmlContent = $(`img`).html(`src`);
+
+// push meme url to Array
+const urlArray = [];
+
+for (let i = 0; i <= 9; i++) {
+  urlArray.push(htmlContent[i].attribs.src);
+}
+// create meme folder
+const memeFolder = './memes';
+
+fs.access(memeFolder, (error) => {
+  if (error) {
+    fs.mkdir(memeFolder, (err) => {
+      if (err) {
+        console.log('We have a little problem.');
+      } else {
+        console.log('Images saved to new folder.');
+      }
     });
-    // store first 10 links inside memes variable
-    const memes = memesArray.slice(0, 10);
-    const memesOne = memesArray.slice(0);
-    // create new array only containing the img src links using map method
-    const mapLinks = memes.map((mem) => mem.imgSrc);
-    //
-    // log each link
-    // const eachLink = mapLinks.forEach((link) => console.log(link));
-    //
-    // for loop though the array to get each link
-    for (let i = 0; i < mapLinks.length; i++) {
-      console.log(mapLinks[i]);
-    }
-    // console.log(mapLinks);
-  })
-  .catch((err) => console.log(err));
+  } else {
+    console.log('Images saved to existing folder.');
+  }
+});
 
-downloadImage();
+// saving image data to new files in memes folder
+for (let i = 0; i < urlArray.length; i++) {
+  if (i < 9) {
+    downloadImage(urlArray[i], `./memes/0${i + 1}.jpg`)
+      .then(console.log(`downloaded image 0${i + 1}.jpg`))
+      .catch(console.error);
+  } else {
+    downloadImage(urlArray[i], `./memes/${i + 1}.jpg`)
+      .then(console.log(`downloaded image ${i + 1}.jpg`))
+      .catch(console.error);
+  }
+}
